@@ -13,15 +13,15 @@ void LinkedList::Add(Element e) {
   // Tip 3: не забудьте обновить поля head и tail
   // напишите свой код здесь ...
   if (size_ == 0){
-    Node new_node = Node(e, nullptr);
-    head_ = &new_node;
-    tail_ = &new_node;
+    Node* new_node = new Node(e, nullptr);
+    head_ = new_node;
+    tail_ = new_node;
     size_ += 1;
   }
   else{
-    Node new_node = Node(e, nullptr);
-    tail_->next = &new_node;
-    tail_ = &new_node;
+    Node* new_node = new Node(e, nullptr);
+    tail_->next = new_node;
+    tail_ = new_node;
     size_+= 1;
   }
 
@@ -39,18 +39,18 @@ void LinkedList::Insert(int index, Element e) {
 
   // напишите свой код здесь ...
   if (size_ == 0){
-    Node new_node = Node(e, nullptr);
-    head_ = &new_node;
-    tail_ = &new_node;
+    Node* new_node = new Node(e, nullptr);
+    head_ = new_node;
+    tail_ = new_node;
     size_ += 1;
   } else if (index == 0){
-      Node new_node = Node(e, head_);
-      head_ = &new_node;
+      Node* new_node = new Node(e, head_);
+      head_ = new_node;
       size_ += 1;
   } else if (index == size_){
-      Node new_node = Node(e, head_);
-      tail_->next = &new_node;
-      tail_ = &new_node;
+      Node* new_node = new Node(e, nullptr);
+      tail_->next = new_node;
+      tail_ = new_node;
       size_ += 1;
   } else{
       Node* current = head_;
@@ -58,8 +58,8 @@ void LinkedList::Insert(int index, Element e) {
         current = current->next;
       }
 
-      Node new_node = Node(e, current->next);
-      current->next = &new_node;
+      Node* new_node = new Node(e, current->next);
+      current->next = new_node;
       size_ += 1;
   }
 }
@@ -78,16 +78,20 @@ Element LinkedList::Remove(int index) {
   // Tip 2: используйте функцию find_node(index)
   // напишите свой код здесь ...
   if (index == 0){
+    Element temp_val = head_->data;
     Node* temp = head_->next;
     delete head_;
     head_ = temp;
     size_ -= 1;
+    return temp_val;
   } else{
       Node* node = find_node(index-1);
       Node* temp = node->next->next;
+      Element temp_val = node->next->data;
       delete node->next;
       node->next = temp;
       size_ -= 1;
+      return temp_val;
   }
 }
 
@@ -101,6 +105,7 @@ void LinkedList::Clear() {
     current = temp;
   }
   delete current;
+  size_ = 0;
   head_ = nullptr;
   tail_ = nullptr;
 }
